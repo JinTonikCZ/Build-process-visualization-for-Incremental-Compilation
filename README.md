@@ -173,8 +173,9 @@ flowchart LR
 
     classDef changed fill:#ffd166,stroke:#333,stroke-width:2px,color:#000;
     classDef recompiled fill:#f4978e,stroke:#333,stroke-width:1px,color:#000;
-    classDef skipped fill:#bde0fe,stroke:#333,stroke-width:1px,color:#000;```
+    classDef skipped fill:#bde0fe,stroke:#333,stroke-width:1px,color:#000;
 ```
+
 
 ---
 
