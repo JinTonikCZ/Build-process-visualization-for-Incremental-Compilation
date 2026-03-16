@@ -117,9 +117,15 @@ sequenceDiagram
 
 # Dependency Propagation Model
 
-Incremental compilation often triggers rebuilds through dependency chains.
-This diagram will illustrate how a change in one module propagates to other
-modules that depend on it.
+This diagram illustrates how the build visualization layer processes
+incremental compilation events.
+
+The system collects build events from the IDE or build system APIs,
+resolves module dependencies, and determines which modules are
+compiled, skipped, or recompiled due to dependency changes.
+
+The resulting data is then transformed into a visualization model
+that can be rendered inside the IDE.
 
 # Dependency propagation diagram
 
@@ -142,6 +148,18 @@ flowchart TD
     J --> K[Show build progress and cause-effect relations]
 
 ```
+
+Key stages in the process:
+
+• **Collect build events** — listen to compilation events provided by the IDE or build system.
+
+• **Detect changed modules** — identify modules that were modified or affected by code changes.
+
+• **Resolve dependency graph** — determine which modules depend on the changed modules.
+
+• **Identify affected modules** — determine which modules must be rebuilt and which can be skipped.
+
+• **Build visualization model** — transform build events and dependency information into a graph that can be displayed in the IDE.
 ---
 
 # Module Build State Model
