@@ -139,7 +139,8 @@ flowchart TD
     H --> I
 
     I --> J[Render graph / timeline in IDE]
-    J --> K[Show build progress and cause-effect relations]```
+    J --> K[Show build progress and cause-effect relations]
+
 ```
 ---
 
@@ -174,6 +175,7 @@ flowchart LR
     classDef changed fill:#ffd166,stroke:#333,stroke-width:2px,color:#000;
     classDef recompiled fill:#f4978e,stroke:#333,stroke-width:1px,color:#000;
     classDef skipped fill:#bde0fe,stroke:#333,stroke-width:1px,color:#000;
+
 ```
 
 
@@ -214,7 +216,8 @@ flowchart TB
     EVENTS --> VIZ
     GRAPH --> VIZ
     VIZ --> MODEL
-    MODEL --> UI```
+    MODEL --> UI
+
 ```
 
 ---
