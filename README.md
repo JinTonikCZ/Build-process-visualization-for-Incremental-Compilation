@@ -212,7 +212,7 @@ The architecture may include components such as:
 - dependency analyzer
 - build graph generator
 - visualization renderer
-- 
+ 
 # System architecture diagram 
 
 ```mermaid
