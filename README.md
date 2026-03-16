@@ -111,7 +111,7 @@ sequenceDiagram
     API-->>BV: Build finished
 
     BV-->>IDE: Render compilation flow
-    IDE-->>U: Show build timeline and module states```
+    IDE-->>U: Show build timeline and module states
 
 ```
 
