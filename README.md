@@ -129,6 +129,16 @@ that can be rendered inside the IDE.
 
 # Dependency propagation diagram
 
+This diagram illustrates how the build visualization layer processes
+incremental compilation events.
+
+The system collects build events from the IDE or build system APIs,
+resolves module dependencies, and determines which modules are
+compiled, skipped, or recompiled due to dependency changes.
+
+The resulting data is then transformed into a visualization model
+that can be rendered inside the IDE.
+
 ```mermaid
 flowchart TD
     A[Start build] --> B[Collect build events from IDE / build APIs]
