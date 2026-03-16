@@ -1,64 +1,91 @@
-# Build-process-visualization-for-Incremental-Compilation
-JetBrains Projekt
+# Build Process Visualization for Incremental Compilation
 
+This repository contains a conceptual design for the JetBrains internship task  
+"Build process visualization for Incremental Compilation."
 
-## Project Description
+The goal of this concept is to provide a clear visualization of the incremental
+build process inside the IDE. Instead of treating the build system as a black box,
+developers should be able to see:
 
-This project explores how the incremental build process can be made more transparent for developers. In many cases, even a small change in one module can trigger recompilation of other dependent modules, while some modules remain skipped. From a developer’s perspective, this behavior is often hidden behind text logs and it can be difficult to understand why a build takes longer than expected.
+- which modules are rebuilt
+- which modules are skipped
+- why specific modules were triggered for recompilation
+- how dependency propagation affects the build
 
-The goal of this idea is to visualize the build process and make it easier to understand which modules are being compiled, which are skipped, and how dependency relationships affect the overall compilation process.
-
----
-
-## Why This Project Is Interesting to Me
-
-I have already completed two other internship test projects related to DevOps and infrastructure. One of them involved building a Kotlin and Spring Boot service for executing shell commands on remote executors, and another was related to metrics processing.
-
-Because of that, this project interested me as a complementary challenge focused more on developer tooling and build system transparency.
-
-I also enjoy using visual modeling tools in my work. I frequently use UML, Mermaid, and BPMN diagrams to explain system architecture, workflows, and dependencies. This is also closely related to my master’s thesis on GitOps, where I try to visualize the methodology of GitOps adoption in a company using structured diagrams and models.
+The visualization aims to make the incremental compilation process easier to
+understand, debug, and analyze.
 
 ---
 
-## Implementation Vision
+# Motivation
 
-I see this feature as a lightweight visualization layer integrated with the existing Kotlin/JVM build tooling.
+Modern build systems perform complex incremental compilation where only affected
+modules are rebuilt. While this significantly speeds up builds, the internal
+decision process is often invisible to developers.
 
-The idea is to collect information about build events and module dependencies using available IntelliJ Platform APIs or build system APIs. This information can then be transformed into a simplified visualization model that helps developers understand:
+This project proposes a visualization layer that exposes build system decisions
+in a clear graphical form.
 
-- which modules are currently compiling  
-- which modules were skipped  
-- which modules were recompiled due to dependency changes  
-- how a change propagates through the project
+The visualization would help developers answer questions like:
 
-The goal is not to expose low-level build internals, but to present a clear and understandable view of the compilation flow.
-
----
-
-## Diagram 1: Build Visualization Sequence
-
-This diagram illustrates the dynamic interaction between the user, the IDE, the visualization layer, and the build system.  
-It demonstrates how the visualization panel subscribes to build events and how the build system provides information about compilation progress and dependency resolution.
-
-The main idea is that the visualization layer acts as a bridge between internal build events and the developer-facing UI.
-
-<!-- Insert Mermaid sequence diagram here -->
+- Why did this module rebuild?
+- Which dependency triggered the rebuild?
+- Which modules were skipped?
+- What was the full propagation chain?
 
 ---
 
-## Diagram 2: Build Visualization Pipeline
+# Implementation Vision
 
-This diagram represents the logical pipeline of the visualization system.
+The implementation can be designed as a lightweight visualization layer that
+integrates with the Kotlin/JVM build system or the IntelliJ build process.
 
-It shows how the system collects build events, detects changed modules, resolves dependencies, identifies affected modules, and finally generates a visualization model that can be rendered inside the IDE.
+The system would collect build events such as:
 
-This step-by-step flow helps structure the implementation and makes the logic easier to understand.
+- module compilation start
+- module compilation finish
+- dependency resolution
+- skipped modules
+- incremental rebuild triggers
 
-%% Sequence diagram: shows how the build visualization could work in the IDE.
-%% The IDE requests build events, receives information about changed, compiled,
-%% skipped, and dependency-triggered modules, and then updates the visualization panel.
+These events would then be transformed into a structured build graph and rendered
+as an interactive visualization inside the IDE.
+
+The main implementation steps would include:
+
+1. Collect build events from the build system
+2. Track module dependency relationships
+3. Detect which modules changed
+4. Determine which modules must be rebuilt
+5. Build a dependency propagation graph
+6. Render the build process visually
+
+---
+
+# Visualization Approach
+
+The visualization can be presented as a build graph showing how the incremental
+build propagates through module dependencies.
+
+Modules would be displayed with clear states such as:
+
+- changed
+- scheduled for rebuild
+- compiled
+- skipped
+
+This would allow developers to quickly understand the structure and flow of
+the build process.
+
+---
+
+# Build Execution Flow
+
+This section will contain a diagram illustrating the high-level build execution
+pipeline and how the build system processes module changes.
 
 ```mermaid
+
 sequenceDiagram
     autonumber
 
@@ -84,21 +111,20 @@ sequenceDiagram
     API-->>BV: Build finished
 
     BV-->>IDE: Render compilation flow
-    IDE-->>U: Show build timeline and module states
-```
+    IDE-->>U: Show build timeline and module states```
+
+Build execution flow diagram (Mermaid diagram will be inserted here).
+
 ---
 
-## Diagram 3: Dependency Propagation Example
+# Dependency Propagation Model
 
-This diagram demonstrates how a change in a single module can propagate through the dependency graph and cause recompilation of other modules.
-
-It helps illustrate why builds sometimes take longer than expected and how dependency relationships influence the build process.
-
-%% Flowchart: shows the main implementation idea as a pipeline.
-%% First collect build data, then detect affected modules and statuses,
-%% then map everything into a simple visualization model for the developer.
+Incremental compilation often triggers rebuilds through dependency chains.
+This diagram will illustrate how a change in one module propagates to other
+modules that depend on it.
 
 ```mermaid
+
 flowchart TD
     A[Start build] --> B[Collect build events from IDE / build APIs]
     B --> C[Detect changed modules]
@@ -114,30 +140,25 @@ flowchart TD
     H --> I
 
     I --> J[Render graph / timeline in IDE]
-    J --> K[Show build progress and cause-effect relations]
-```
+    J --> K[Show build progress and cause-effect relations]```
+Dependency propagation diagram (Mermaid diagram will be inserted here).
+
 ---
 
-## Diagram 4: Module Build State Model
+# Module Build State Model
 
-This diagram describes the possible states a module can have during the build process.
+Modules in the build process can transition through several states during
+incremental compilation.
 
-Instead of exposing many low-level states, the visualization should present a simplified model such as:
+Typical states include:
 
-- waiting  
-- compiling  
-- skipped  
-- recompiled  
-- finished  
-- failed  
-
-This keeps the visualization readable and useful for developers.
+- changed
+- queued for compilation
+- compiling
+- compiled
+- skipped
 
 ```mermaid
-%% Dependency propagation diagram: shows how one change in a module
-%% can trigger recompilation of dependent modules, while some modules remain skipped.
-%% This is useful to explain why a build becomes longer than expected.
-
 flowchart LR
     A[Module A changed] --> B[Module B depends on A]
     A --> C[Module C depends on A]
@@ -152,20 +173,25 @@ flowchart LR
 
     classDef changed fill:#ffd166,stroke:#333,stroke-width:2px,color:#000;
     classDef recompiled fill:#f4978e,stroke:#333,stroke-width:1px,color:#000;
-    classDef skipped fill:#bde0fe,stroke:#333,stroke-width:1px,color:#000;
-```
+    classDef skipped fill:#bde0fe,stroke:#333,stroke-width:1px,color:#000;```
+
+Module state diagram (Mermaid diagram will be inserted here).
+
 ---
 
-## Diagram 5: Feature Architecture
+# System Architecture
 
-This diagram shows the high-level architecture of the feature.
+This section will illustrate how the visualization layer integrates with the
+build system and the IDE.
 
-It illustrates how the visualization layer connects the IDE interface with the build system and dependency analysis components. The visualization model transforms internal build data into a form that can be easily displayed and understood by the developer.
+The architecture may include components such as:
+
+- build event collector
+- dependency analyzer
+- build graph generator
+- visualization renderer
 
 ```mermaid
-%% Architecture diagram: shows the main logical components of the feature.
-%% The visualization layer sits between the IDE/build APIs and the final UI panel,
-%% transforming low-level build events into a developer-friendly representation.
 
 flowchart TB
     U[Developer] --> UI[IDE Visualization Panel]
@@ -186,32 +212,34 @@ flowchart TB
     EVENTS --> VIZ
     GRAPH --> VIZ
     VIZ --> MODEL
-    MODEL --> UI
-```
+    MODEL --> UI```
+
+System architecture diagram (Mermaid diagram will be inserted here).
 
 ---
 
-## Technologies
+# Technologies
 
-Possible technologies and foundations for this implementation include:
+Possible technologies that could be used for the implementation:
 
 - Kotlin
 - IntelliJ Platform APIs
-- Build system events
+- Build system event listeners
 - Dependency graph analysis
-- Mermaid / UML / BPMN for conceptual modeling and documentation
+- Visualization tools (Mermaid or similar)
 
 ---
 
-## Notes
+# Notes
 
-This repository currently contains the conceptual design and explanation of the idea.  
-The focus is on describing the visualization concept and the architecture of the feature rather than providing a full implementation.
+This repository currently contains a conceptual design and visualization ideas
+for the internship task.
 
-The diagrams can be added later to illustrate the system design and interaction flow.
+The diagrams will demonstrate how incremental build information could be
+collected, processed, and visualized in a developer-friendly way.
 
 ---
 
-## Author
+# Author
 
-Pavel Dikaň
+Pavel Dikan
