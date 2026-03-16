@@ -124,7 +124,6 @@ modules that depend on it.
 # Dependency propagation diagram
 
 ```mermaid
-
 flowchart TD
     A[Start build] --> B[Collect build events from IDE / build APIs]
     B --> C[Detect changed modules]
