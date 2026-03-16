@@ -160,6 +160,8 @@ Key stages in the process:
 • **Identify affected modules** — determine which modules must be rebuilt and which can be skipped.
 
 • **Build visualization model** — transform build events and dependency information into a graph that can be displayed in the IDE.
+
+
 ---
 
 # Module Build State Model
