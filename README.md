@@ -156,8 +156,8 @@ Typical states include:
 - compiling
 - compiled
 - skipped
-- 
-# Module state diagram
+
+# Module dependency propagation
 
 ```mermaid
 flowchart LR
