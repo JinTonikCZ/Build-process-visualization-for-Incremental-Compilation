@@ -113,15 +113,15 @@ sequenceDiagram
     BV-->>IDE: Render compilation flow
     IDE-->>U: Show build timeline and module states```
 
-Build execution flow diagram (Mermaid diagram will be inserted here).
-
----
+```
 
 # Dependency Propagation Model
 
 Incremental compilation often triggers rebuilds through dependency chains.
 This diagram will illustrate how a change in one module propagates to other
 modules that depend on it.
+
+# Dependency propagation diagram
 
 ```mermaid
 
@@ -141,8 +141,7 @@ flowchart TD
 
     I --> J[Render graph / timeline in IDE]
     J --> K[Show build progress and cause-effect relations]```
-Dependency propagation diagram (Mermaid diagram will be inserted here).
-
+```
 ---
 
 # Module Build State Model
@@ -157,6 +156,8 @@ Typical states include:
 - compiling
 - compiled
 - skipped
+- 
+# Module state diagram
 
 ```mermaid
 flowchart LR
@@ -174,8 +175,7 @@ flowchart LR
     classDef changed fill:#ffd166,stroke:#333,stroke-width:2px,color:#000;
     classDef recompiled fill:#f4978e,stroke:#333,stroke-width:1px,color:#000;
     classDef skipped fill:#bde0fe,stroke:#333,stroke-width:1px,color:#000;```
-
-Module state diagram (Mermaid diagram will be inserted here).
+```
 
 ---
 
@@ -190,6 +190,8 @@ The architecture may include components such as:
 - dependency analyzer
 - build graph generator
 - visualization renderer
+- 
+# System architecture diagram 
 
 ```mermaid
 
@@ -213,8 +215,7 @@ flowchart TB
     GRAPH --> VIZ
     VIZ --> MODEL
     MODEL --> UI```
-
-System architecture diagram (Mermaid diagram will be inserted here).
+```
 
 ---
 
